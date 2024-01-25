@@ -1,4 +1,4 @@
-import { Avatar, Button, Combobox, Grid, Text, TextInput, useCombobox } from "@mantine/core"
+import { Avatar, Button, Combobox, Grid, Loader, Text, TextInput, useCombobox } from "@mantine/core"
 import AuthContainer from "./components/Container"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
@@ -20,6 +20,7 @@ const ChooseAgent = () => {
   const navigate = useNavigate()
   const combobox = useCombobox();
   const [debouncedValue] = useDebouncedValue(value, 500);
+  const [loading, setLoading] = useState(false)
 
   const options = items.map((item) => (
     <Combobox.Option value={item.value} key={item.value} display={'flex'}>
@@ -30,6 +31,7 @@ const ChooseAgent = () => {
 
   useEffect(() => {
     if (debouncedValue && debouncedValue.trim().length) {
+      setLoading(true)
       api.get(`characters?name=${debouncedValue}`)
       .then(({data}) => {
         const res = data.data.results.map((item: Character) => ({
@@ -38,6 +40,8 @@ const ChooseAgent = () => {
           thumbnail: item.thumbnail.path + '.' + item.thumbnail.extension
         }));
         setItems(res)
+      }).finally(() => {
+        setLoading(false)
       })
     }
   }, [debouncedValue])
@@ -82,13 +86,14 @@ const ChooseAgent = () => {
                 onBlur={() => combobox.closeDropdown()}
                 leftSection={selectedHero.thumbnail !== '' ? 
                 <img src={selectedHero.thumbnail} height={32} style={{borderRadius: 16}} /> : 
-                <IconUser />}
+                loading ? <Loader color="blue" size={'sm'}/> : <IconUser />}
               />
             </Combobox.Target>
             <Combobox.Dropdown>
-              <Combobox.Options>
-                {options.length === 0 ? <Combobox.Empty>Nothing found</Combobox.Empty> : options}
-              </Combobox.Options>
+              {!!loading && <Combobox.Empty>carregando...</Combobox.Empty>}
+              {!loading && <Combobox.Options>
+                {options.length === 0 ? <Combobox.Empty>sem registro</Combobox.Empty> : options}
+              </Combobox.Options>}
             </Combobox.Dropdown>
           </Combobox>
         </Grid.Col>

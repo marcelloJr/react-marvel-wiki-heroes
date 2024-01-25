@@ -13,6 +13,18 @@ type Url = {
   url: string
 }
 
+export interface CharacterData {
+  offset: number,
+  limit: number,
+  total: number,
+  count: number,
+  results: Character[]
+}
+export interface CharacterResponse {
+  data: {
+    data: CharacterData
+  }
+}
 export default interface Character {
   id: number;
   modified: string;

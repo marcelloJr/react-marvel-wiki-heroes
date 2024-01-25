@@ -1,10 +1,11 @@
-import { Navigate, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import Main from "@/layout/Main";
 import Login from "@/views/auth/Login";
 import Recovery from "@/views/auth/Recovery";
 import BackToLogin from "@/views/auth/BackToLogin";
 import ChooseAgent from "@/views/auth/ChooseAgent";
+import Home from "@/views/home";
 
 const router = createBrowserRouter([
   {
@@ -14,20 +15,20 @@ const router = createBrowserRouter([
         <Main />
       </ProtectedRoute>
     ),
-    // children: [
-    //   {
-    //     path: "",
-    //     element: <Navigate to="/candidate" />
-    //   },
-    //   {
-    //     path: "candidate/*",
-    //     element: (
-    //       <ProtectedRoute>
-    //         <Parcel config={() => System.import('@recruiter-sys/candidate')} />
-    //       </ProtectedRoute>
-    //     )
-    //   }
-    // ]
+    children: [
+      {
+        path: "",
+        element: <Home />
+      },
+      {
+        path: "profile/:id?",
+        element: (
+          <ProtectedRoute>
+            <h1>Profile</h1>
+          </ProtectedRoute>
+        )
+      }
+    ]
   },
   {
     path: "login",
