@@ -7,7 +7,8 @@ const api = axios.create({
   params: {
     apikey: API_KEY,
     hash: HASH,
-    ts: 1
+    ts: 1,
+    limit: 10
   }
 })
 

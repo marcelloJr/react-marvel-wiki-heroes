@@ -10,9 +10,13 @@ const setTheme = (payload: theme) => {
 const setHeroe = (payload: string) => {
   localStorage.setItem(`${STORAGE_KEY}/selected-heroe`, payload);
 }
+const getHeroe = () => {
+  return localStorage.getItem(`${STORAGE_KEY}/selected-heroe`);
+}
 
 export {
   setHeroe,
   getTheme,
-  setTheme
+  setTheme,
+  getHeroe
 };
