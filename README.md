@@ -1,30 +1,19 @@
-# React + TypeScript + Vite
+# Desafio Pontua
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Para execução do projeto, será necessário o node >= v18.17.0.
+Após finalizar o clone da repositório, rode o seguinte comando:
+```npm install``` e em seguida ```npm run dev```.
+A aplicação rodará na porta 5173, acesse http://localhost:5173/.
+O login para acesso da plataforma está mockado, conforme solicitado no desafio. Entrar com email **admin@admin.com** e senha **123456**
+#
+![My Image](https://github.com/marcelloJr/react-marvel-wiki-heroes/blob/main/src/assets/tutorial/passo_1.png?raw=true)
+Tela de login. 
 
-Currently, two official plugins are available:
+![My Image 2](https://github.com/marcelloJr/react-marvel-wiki-heroes/blob/main/src/assets/tutorial/passo_2.png?raw=true)
+Tela de seleção de personagem
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![My Image 2](https://github.com/marcelloJr/react-marvel-wiki-heroes/blob/main/src/assets/tutorial/tela_inicial.png?raw=true)
+Home da aplicação, onde temos uma listagem de personagens da Marvel
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+![My Image 2](https://github.com/marcelloJr/react-marvel-wiki-heroes/blob/main/src/assets/tutorial/tela_detalhe_heroi.png?raw=true)
+Tela de detalhe do personagem
