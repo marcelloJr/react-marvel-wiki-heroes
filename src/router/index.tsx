@@ -6,6 +6,7 @@ import Recovery from "@/views/auth/Recovery";
 import BackToLogin from "@/views/auth/BackToLogin";
 import ChooseAgent from "@/views/auth/ChooseAgent";
 import Home from "@/views/home";
+import Profile from "@/views/profile";
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
         path: "profile/:id?",
         element: (
           <ProtectedRoute>
-            <h1>Profile</h1>
+            <Profile />
           </ProtectedRoute>
         )
       }

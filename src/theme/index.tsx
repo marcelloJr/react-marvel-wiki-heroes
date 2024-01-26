@@ -1,4 +1,5 @@
 import { createTheme, MantineProvider, Button, TextInput, PasswordInput, NavLink } from '@mantine/core';
+import { ModalsProvider } from '@mantine/modals';
 interface Props {
   children: React.ReactNode;
   defaultColorScheme?: 'light' | 'dark';
@@ -89,6 +90,10 @@ export default function MantineProviderWrapper({ children }: Props) {
     }
   });
   return (
-    <MantineProvider theme={theme}>{children}</MantineProvider>
+    <MantineProvider theme={theme}>
+      <ModalsProvider>
+        {children}
+      </ModalsProvider>
+    </MantineProvider>
   );
 }

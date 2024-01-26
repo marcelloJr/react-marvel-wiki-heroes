@@ -3,6 +3,7 @@ import api from "@/utils/api"
 import { Card, Grid, Image, Pagination, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 import SkeletonLoading from "./components/SkeletonLoading";
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const Home = () => {
   const [loading, setLoading] = useState(true)
@@ -14,9 +15,12 @@ const Home = () => {
     count: 0,
     results: []
   })
+  const [search, setSearch] = useState('')
+  const location = useLocation()
+  const navigate = useNavigate()
   const getMarvelCharacters = () => {
     setLoading(true)
-    api.get('/characters', {params: {offset: activePage - 1}})
+    api.get('/characters', {params: {offset: activePage - 1, name: search === '' ? undefined : search}})
     .then(({data}: CharacterResponse) => {
       const total = data.data.total / data.data.limit;
       setPagination({...data.data, total: Math.ceil(total) })
@@ -28,7 +32,15 @@ const Home = () => {
 
   useEffect(() => {
     getMarvelCharacters()
-  }, [activePage])
+  }, [activePage, search])
+  useEffect(() => {
+    const agent = new URLSearchParams(location.search).get('agent')
+    if (agent) {
+      setSearch(agent)
+    } else {
+      setSearch('')
+    }
+  }, [location])
   
   return (
     <Grid m={32}>
@@ -40,6 +52,9 @@ const Home = () => {
             padding="xl"
             style={{ width: '100%', cursor: 'pointer'}}
             className="clickable-card"
+            onClick={() => {
+              navigate('/profile/' + character.id)
+            }}
           >
             <Card.Section>
               <Image
@@ -56,6 +71,7 @@ const Home = () => {
           </Card>
         </Grid.Col>
       ))}
+      {pagination.results.length === 0 && <h1>Sem resultado</h1>}
       <Grid.Col span={12} display={'flex'} style={{justifyContent: 'center'}}>
         <Pagination 
           total={pagination.total} 

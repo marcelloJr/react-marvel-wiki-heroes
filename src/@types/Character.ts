@@ -31,10 +31,10 @@ export default interface Character {
   name: string;
   resourceURI: string;
   description: string;
-  series: Collection[];
-  comics: Collection[];
-  events: Collection[];
-  stories: (Collection & {type: string})[];
+  series: Collection;
+  comics: Collection;
+  events: Collection;
+  stories: Collection & {type: string};
   thumbnail: {
     extension: string;
     path: string;

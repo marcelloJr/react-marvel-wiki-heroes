@@ -35,6 +35,7 @@ const decodeJwt = (): Jwt | null => {
 
 const logout = () => {
   expireAllCookies();
+  localStorage.clear();
   location.href = '/login';
 }
 

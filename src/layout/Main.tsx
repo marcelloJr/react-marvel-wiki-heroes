@@ -1,5 +1,5 @@
 import { AppShell, Burger, NavLink, Divider, Stack, Text, useMantineTheme, TextInput, Switch, rem, useMantineColorScheme } from "@mantine/core"
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { useDebouncedValue, useDisclosure, useMediaQuery } from '@mantine/hooks';
 import {
   IconArrowBackUp, IconLayoutDashboard, IconUser, IconSearch, IconMoon, IconSun
 } from "@tabler/icons-react";
@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import PontuaLogo from '@/assets/img/logo-dark.svg'
 import PontuaLogoDark from '@/assets/img/logo-pontua.svg'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { modals } from '@mantine/modals';
+import { logout } from "@/utils/storage/cookie";
 
 const Main = () => {
   const [opened, { toggle }] = useDisclosure();
@@ -17,6 +19,8 @@ const Main = () => {
   const { setColorScheme, colorScheme } = useMantineColorScheme();
   const [checked, setChecked] = useState(colorScheme === 'dark');
   const navigate = useNavigate()
+  const [filteredValue, setFilteredValue] = useState('')  
+  const [debouncedValue] = useDebouncedValue(filteredValue, 500);
   
   const sidabarData = [
     { label: 'Home', leftSection: <IconLayoutDashboard size="24" />, to: '/' },
@@ -29,14 +33,31 @@ const Main = () => {
   const lastOption = { label: 'Sair', leftSection: <IconArrowBackUp size="24" />, }
   const handleNavActive = (key: string) => {
     const pathnames = {
-      '/': 0,
-      '/profile': 1
+      '': 0,
+      'profile': 1
     }
-    setActive(pathnames[key as keyof typeof pathnames])
+    const newKey = key.split('/')[1]
+    setActive(pathnames[newKey as keyof typeof pathnames])
   }
   useEffect(() => {
     handleNavActive(_location.pathname)
   }, [_location])
+  useEffect(() => {
+    navigate(`?agent=${debouncedValue}`)
+  }, [debouncedValue])
+
+  const openModal = () => modals.openConfirmModal({
+    title: 'Confirme sua ação',
+    children: (
+      <Text size="sm">Deseja realmente sair da aplicação?</Text>
+    ),
+    labels: { confirm: 'Sim', cancel: 'Não' },
+    onCancel: () => {},
+    onConfirm: () => {
+      logout()
+    },
+    centered: true
+  });
 
   return (
     <AppShell
@@ -56,13 +77,16 @@ const Main = () => {
           m={12}
           size="lg"
         />
-        {_location.pathname === '/' && !opened &&
+        {_location.pathname === '/' &&
           <TextInput
             ml={mediaQuery ? 340 : 0}
             leftSection={<IconSearch />}
             placeholder="Busque um agente"
             mt={16}
             mr={32}
+            onChange={(event) => {
+              setFilteredValue(event.currentTarget.value)
+            }}
           />
         }
         <Switch
@@ -115,11 +139,12 @@ const Main = () => {
         ))}
         <Divider my="md" />
         <NavLink
-          href="#required-for-focus"
           key={lastOption.label}
           label={<Text size="md">{lastOption.label}</Text>}
           leftSection={lastOption.leftSection}
-          onClick={() => console.log('sairrr')}
+          onClick={() => {
+            openModal()
+          }}
         />
       </AppShell.Navbar>
       <AppShell.Main>
