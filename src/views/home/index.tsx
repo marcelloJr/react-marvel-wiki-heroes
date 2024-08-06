@@ -71,7 +71,7 @@ const Home = () => {
           </Card>
         </Grid.Col>
       ))}
-      {pagination.results.length === 0 && <h1>Sem resultado</h1>}
+      {pagination.results.length === 0 && !loading && <h1>Sem resultado</h1>}
       <Grid.Col span={12} display={'flex'} style={{justifyContent: 'center'}}>
         <Pagination 
           total={pagination.total} 
